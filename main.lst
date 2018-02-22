@@ -1,0 +1,174 @@
+     1                                  ; Assembler Linux Template
+     2                                  ; Program Description:
+     3                                  
+     4                                  ; Author:
+     5                                  
+     6                                  ; Creation Date:
+     7                                  
+     8                                  ; Revisions: 
+     9                                  
+    10                                  ; Date:              Modified by:
+    11                                  
+    12                                  ; Operating System:
+    13                                  
+    14                                  ; IDE/Compiler:
+    15                                  
+    16                                  %include "./functions.inc"
+    17                              <1> ;
+    18                              <1> ;Include file for the functions library
+    19                              <1> ;
+    20                              <1> sys_exit	equ	1h
+    21                              <1> sys_read	equ	3h
+    22                              <1> sys_write	equ	4h
+    23                              <1> stdin		equ	0h
+    24                              <1> stdout		equ	1h
+    25                              <1> stderr		equ	3h
+    26                              <1> 
+    27                              <1> ;Print a string with no delimeter to the console
+    28                              <1> ;Arguments:	Address of the String (Stack)
+    29                              <1> ;			Length of the String (Stack)
+    30                              <1> extern		PrintText
+    31                              <1> 
+    32                              <1> ;Print an endl character to the console
+    33                              <1> ;Arguments:	None
+    34                              <1> extern		Printendl
+    35                              <1> 
+    36                              <1> ;Print a 32bit numeric value as a Decimal to the console
+    37                              <1> ;Arguments:	DWORD Value (stack)
+    38                              <1> extern		Print32bitNumDecimal
+    39                              <1> 
+    40                              <1> ;Print a 32bit signed numeric value as a Decimal to the console
+    41                              <1> ;Arguments:	DWORD Value (stack)
+    42                              <1> extern		Print32bitSNumDecimal
+    43                              <1> 
+    44                              <1> ;Print a 32bit numeric value as a Binary to the console
+    45                              <1> ;Arguments:	DWORD Value (stack)
+    46                              <1> extern		Print32bitNumBinary
+    47                              <1> 
+    48                              <1> ;Print a 32bit numeric value as a Binary to the console
+    49                              <1> ;Arguments:	DWORD Value (stack)
+    50                              <1> extern		Print32bitFullBinary
+    51                              <1> 
+    52                              <1> ;
+    53                              <1> ;Print a full 32-bits binary number in Floating Point format.
+    54                              <1> ;Stack contents:
+    55                              <1> ;	Value to Print to an Ascii String
+    56                              <1> extern		Print32bitFloatBinary
+    57                              <1> 
+    58                              <1> ;Print a 32bit numeric value as a Hexidecimal to the console
+    59                              <1> ;Arguments:	DWORD Value (stack)
+    60                              <1> extern		Print32bitNumHex
+    61                              <1> 
+    62                              <1> ;Print The General Purpose Registers to the console
+    63                              <1> ;Arguments:	None
+    64                              <1> extern		PrintRegisters
+    65                              <1> 
+    66                              <1> ;Print The floating point Registers to the console
+    67                              <1> ;Arguments:	None
+    68                              <1> extern		PrintFloatingRegisters
+    69                              <1> 
+    70                              <1> ;Print a string with an ending 00h delimiter to the console
+    71                              <1> ;Arguments:	Address of the String (Stack)
+    72                              <1> extern		PrintString
+    73                              <1> 
+    74                              <1> ;Print a space to the console
+    75                              <1> ;Arguments:	None
+    76                              <1> extern		PrintSpace
+    77                              <1> 
+    78                              <1> ;Print a comma followed by a space to the console
+    79                              <1> ;Arguments:	None
+    80                              <1> extern		PrintComma
+    81                              <1> 
+    82                              <1> ;Print a Double Word floating point number
+    83                              <1> ;Arguments: The floating point number to be printed (Stack)
+    84                              <1> extern		PrintDWFloat
+    85                              <1> 
+    86                              <1> ;Call the function to get the CPU's Time Stamp Counter
+    87                              <1> ;Arguments: None
+    88                              <1> ;Return:  eax
+    89                              <1> extern		GetTSC
+    90                              <1> 
+    91                              <1> ;Input Unsigned Int	
+    92                              <1> ;This function will let the user input a string, then it will check it to make sure it
+    93                              <1> ;is a positive integer.  It will then convert the ASCII string into a DWORD and return
+    94                              <1> ;that value in the EAX register.
+    95                              <1> ;Arguments: None
+    96                              <1> ;Return: 	eax will contain the usigned ingeter
+    97                              <1> ;			Carry flag will be set if invalid integer was input
+    98                              <1> extern		InputUInt
+    99                              <1> 
+   100                              <1> ;Input Signed Int  TBD (just copied from input unsigned int - no code updated)
+   101                              <1> ;This function will let the user input a string, then it will check it to make sure it
+   102                              <1> ;is a positive integer.  It will then convert the ASCII string into a DWORD and return
+   103                              <1> ;that value in the EAX register.
+   104                              <1> ;Arguments: None
+   105                              <1> ;Return: 	eax will contain the usigned ingeter
+   106                              <1> ;			Carry flag will be set if invalid integer was input
+   107                              <1> extern		InputSInt
+   108                              <1> 
+   109                              <1> ;Input Binary Number	
+   110                              <1> ;This function will let the user input a string, then it will check it to make sure it
+   111                              <1> ;is a binary number.  It will then convert the ASCII string into a DWORD and return
+   112                              <1> ;that value in the EAX register.
+   113                              <1> ;Arguments: None
+   114                              <1> ;Return: 	eax will contain the number
+   115                              <1> ;			Carry flag will be set if invalid binary number was input
+   116                              <1> extern		InputBin
+   117                              <1> 
+   118                              <1> ;Input Hexidecimal Number	
+   119                              <1> ;This function will let the user input a string, then it will check it to make sure it
+   120                              <1> ;is a binary number.  It will then convert the ASCII string into a DWORD and return
+   121                              <1> ;that value in the EAX register.
+   122                              <1> ;Arguments: None
+   123                              <1> ;Return: 	eax will contain the number
+   124                              <1> ;			Carry flag will be set if invalid binary number was input
+   125                              <1> extern		InputHex
+   126                              <1> 
+   127                              <1> ;Input a Floating Point Number	
+   128                              <1> ;This function will let the user input a string, then it will check it to make sure it
+   129                              <1> ;is a valid decimal number.  It will then convert the ASCII string into a DWORD and return
+   130                              <1> ;that value in the ST(0) register.
+   131                              <1> ;Arguments: None
+   132                              <1> ;Return: 	eax will contain the number
+   133                              <1> ;			Carry flag will be set if invalid binary number was input
+   134                              <1> extern		InputFloat
+   135                              <1> 
+   136                                  
+   137                                  bits 32
+   138                                  
+   139                                  section .data
+   140                                  
+   141                                    ;Initialized data definitions go here
+   142                                  	
+   143 00000000 57656C636F6D652074-     	openPrompt	db	"Welcome to my program", 0ah, 0dh, 0h
+   144 00000009 6F206D792070726F67-
+   145 00000012 72616D0A0D00       
+   146 00000018 50726F6772616D2065-     	closePrompt	db	"Program ending, have a nice day.", 0ah, 0dh, 0h
+   147 00000021 6E64696E672C206861-
+   148 0000002A 76652061206E696365-
+   149 00000033 206461792E0A0D00   
+   150                                  	
+   151                                  section .bss
+   152                                    ;Uninitialized memory reservations go here
+   153                                  
+   154                                  section .text
+   155                                  
+   156                                  global _start
+   157                                  _start:
+   158 00000000 90                        nop
+   159                                  
+   160 00000001 68[00000000]            	push	openPrompt		;Print the opening/welcome prompt
+   161 00000006 E8(00000000)            	call	PrintString		;
+   162 0000000B E8(00000000)            	call	Printendl		;
+   163                                  
+   164                                  	;Code starts here
+   165                                  	
+   166 00000010 68[18000000]            	push	closePrompt		;Print the closing/ending prompt
+   167 00000015 E8(00000000)            	call	PrintString		;
+   168 0000001A E8(00000000)            	call	Printendl		;
+   169                                  
+   170                                  	;Code ends here	
+   171 0000001F 90                      	nop
+   172 00000020 B801000000              	mov eax,1 ; Exit system call value
+   173 00000025 BB00000000              	mov ebx,0 ; Exit return code
+   174 0000002A CD80                    	int 80h ; Call the kernel
