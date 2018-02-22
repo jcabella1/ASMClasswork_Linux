@@ -1,7 +1,6 @@
-; Assembler Linux Template
 ; Program Description:
 
-; Author:
+; Author: Jenny Abella
 
 ; Creation Date:
 
@@ -9,9 +8,9 @@
 
 ; Date:              Modified by:
 
-; Operating System:
+; Operating System: Linux Mint 64-bit 18 Mate
 
-; IDE/Compiler:
+; IDE/Compiler: Geany / NASM
 
 %include "./functions.inc"
 
